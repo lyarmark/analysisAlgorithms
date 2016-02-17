@@ -4,7 +4,7 @@ package homework1;
 public class StringMatcher {
 	public static void main(String[] args) {
 		String pattern = "ina";
-		String text = "findaneedleinahaystack";
+		String text = "find a needle in a haystack";
 		char[] haystack = text.replaceAll("\\s+", "").toCharArray();
 		char[] needle = pattern.replaceAll("\\s+", "").toCharArray();
 		System.out.println(findSubString(haystack, needle));
@@ -16,19 +16,19 @@ public class StringMatcher {
 			return -1;
 		}
 
-		int M = needle.length;
-		int N = haystack.length;
+		int n = needle.length;
+		int h = haystack.length;
 
-		for (int i = 0; i <= N - M; i++) {
+		for (int i = 0; i <= h - n; i++) {
 			int j;
-			for (j = 0; j < M; j++) {
+			for (j = 0; j < n; j++) {
 				if (haystack[i + j] != needle[j])
 					break;
 			}
-			if (j == M)
+			if (j == n)
 				return i; // found at offset i
 		}
-		return N; // not found
+		return h; // not found
 
 	}
 	/*
