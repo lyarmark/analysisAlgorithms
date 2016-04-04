@@ -9,12 +9,12 @@ public class RSA {
 	private final int m;
 
 	public RSA() {
-		this.p = 96973;
-		this.q = 104701;
-		this.e = 65537;
+		this.p = 61;
+		this.q = 53;
+		this.e = 17;
 		this.n = p * q;
 		this.phiN = (p - 1) * (q - 1); // phi(p) * phi(q)
-		this.m = 3405;
+		this.m = 65;
 	}
 
 	public int getN() {
@@ -41,64 +41,36 @@ public class RSA {
 		return phiN;
 	}
 
-	public int[] extendedEuclid(int a, int b)
-	/*
-	 * This function will perform the Extended Euclidean algorithm to find the
-	 * GCD of a and b. We assume here that a and b are non-negative (and not
-	 * both zero). This function also will return numbers j and k such that d =
-	 * j*a + k*b where d is the GCD of a and b.
-	 */
-	{
+	public int[] extendedEuclid(int p, int q) {
 		int[] ans = new int[3];
-		int q;
+		int ax, yN;
 
-		if (b == 0) { /* If b = 0, then we're done... */
-			ans[0] = a;
+		if (q == 0) {
+			ans[0] = p;
 			ans[1] = 1;
 			ans[2] = 0;
-		} else { /* Otherwise, make a recursive function call */
-			q = a / b;
-			ans = extendedEuclid(b, a % b);
-			int temp = ans[1] - ans[2] * q;
-			ans[1] = ans[2];
-			ans[2] = temp;
+			return ans;
 		}
 
+		ans = extendedEuclid(q, p % q);
+		ax = ans[1];
+		yN = ans[2];
+		ans[1] = yN;
+		int temp = p / q;
+		temp = yN * temp;
+		ans[2] = ax - temp;
 		return ans;
 	}
 
-	public int[] euclidean(int a, int b) {
-		if (b > a) {
-			// reverse the order of inputs, run through this method, then
-			// reverse outputs
-			int[] coeffs = euclidean(b, a);
-			int[] output = { coeffs[1], coeffs[0] };
-			return output;
-		}
+	// calculate multiplicative inverse of a%n using the extended euclidean GCD
+	// algorithm
+	public int inverse(int a, int N) {
+		int[] ans = extendedEuclid(a, N);
 
-		int q = a / b;
-		// a = q*b + r --> r = a - q*b
-		int r = a - q * b;
-
-		// when there is no remainder, we have reached the gcd and are done
-		if (r == 0) {
-			int[] output = { 0, 1 };
-			return output;
-		}
-
-		// call the next iteration down (b = qr + r_2)
-		int[] next = euclidean(b, r);
-
-		int[] output = { next[1], next[0] - q * next[1] };
-		return output;
-	}
-
-	// recursive implementation
-	public int gcd(int p, int q) {
-		if (q == 0)
-			return p;
+		if (ans[1] == 0)
+			return ans[1];
 		else
-			return gcd(q, p % q);
+			return ans[1] + (N);
 	}
 
 	public int fastExpo(int a, int b) {

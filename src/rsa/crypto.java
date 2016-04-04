@@ -2,11 +2,11 @@
 Author - Sam Halligan*/
 package rsa;
 
-import java.math.*;
-import java.util.*;
-import java.io.*;
-import javax.crypto.*;
-import java.security.*;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.Random;
 
 class crypto {
 

@@ -11,7 +11,7 @@ public class RunRSA {
 		int e = rsa.getE();
 		int n = rsa.getN();
 		int phiN = rsa.getPhiN();
-		int m = rsa.getM();
+		 int m = rsa.getM();
 
 		System.out.println("p: " + rsa.getP());
 		System.out.println("q: " + rsa.getQ());
@@ -19,13 +19,11 @@ public class RunRSA {
 		System.out.println("e: " + rsa.getE());
 		System.out.println("phi(n): " + rsa.getPhiN());
 
-		// EXTENDED EUCLID'S ALGORITHM
-		int gcd = rsa.gcd(p, q);
-		int d = (gcd);
+		int d = rsa.inverse(e, phiN);
 		System.out.println("d: " + d);
 
-		int c =  rsa.fastExpo(m, e) % n;
-		System.out.println("c: " + c);
+		 int c = rsa.fastExpo(m, e) % n;
+	 System.out.println("c: " + c);
 
 	}
 }
