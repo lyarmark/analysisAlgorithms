@@ -1,89 +1,104 @@
 package rsa;
 
+import java.math.BigInteger;
+
 public class RSA {
-	public final int n;
-	public final int e;
-	private final int p;
-	private final int q;
-	private final int phiN;
-	private final int m;
+	public final BigInteger n;
+	public final BigInteger e;
+	private final BigInteger p;
+	private final BigInteger q;
+	private final BigInteger phiN;
+	private final BigInteger m;
 
 	public RSA() {
-		this.p = 61;
-		this.q = 53;
-		this.e = 17;
-		this.n = p * q;
-		this.phiN = (p - 1) * (q - 1); // phi(p) * phi(q)
-		this.m = 65;
+		this.p = new BigInteger("96973");
+		this.q = new BigInteger("104701");
+		this.e = new BigInteger("65537");
+		this.n = p.multiply(q);
+		// phi(p)* phi(q)
+		this.phiN = (p.subtract(BigInteger.ONE)).multiply((q.subtract(BigInteger.ONE)));
+		this.m = new BigInteger("3405");
 	}
 
-	public int getN() {
+	public BigInteger getN() {
 		return n;
 	}
 
-	public int getE() {
+	public BigInteger getE() {
 		return e;
 	}
 
-	public int getP() {
+	public BigInteger getP() {
 		return p;
 	}
 
-	public int getQ() {
+	public BigInteger getQ() {
 		return q;
 	}
 
-	public int getM() {
+	public BigInteger getM() {
 		return m;
 	}
 
-	public int getPhiN() {
+	public BigInteger getPhiN() {
 		return phiN;
 	}
 
-	public int[] extendedEuclid(int p, int q) {
-		int[] ans = new int[3];
-		int ax, yN;
+	public static BigInteger[] extendedEuclid(BigInteger a, BigInteger n) {
+		BigInteger[] ans = new BigInteger[3];
+		BigInteger ax, yN;
 
-		if (q == 0) {
-			ans[0] = p;
-			ans[1] = 1;
-			ans[2] = 0;
+		if (n.equals(BigInteger.ZERO)) {
+			ans[0] = a;
+			ans[1] = BigInteger.ONE;
+			ans[2] = BigInteger.ZERO;
 			return ans;
 		}
 
-		ans = extendedEuclid(q, p % q);
+		ans = extendedEuclid(n, a.mod(n));
 		ax = ans[1];
 		yN = ans[2];
 		ans[1] = yN;
-		int temp = p / q;
-		temp = yN * temp;
-		ans[2] = ax - temp;
+		BigInteger temp = a.divide(n);
+		temp = yN.multiply(temp);
+		ans[2] = ax.subtract(temp);
 		return ans;
 	}
 
 	// calculate multiplicative inverse of a%n using the extended euclidean GCD
 	// algorithm
-	public int inverse(int a, int N) {
-		int[] ans = extendedEuclid(a, N);
+	public BigInteger inverse(BigInteger a, BigInteger n) {
+		BigInteger[] ans = extendedEuclid(a, n);
 
-		if (ans[1] == 0)
+		if (ans[1].compareTo(BigInteger.ZERO) == 1)
 			return ans[1];
 		else
-			return ans[1] + (N);
+			return ans[1].add(n);
 	}
 
-	public int fastExpo(int a, int b) {
-		int result = 1;
+	public BigInteger fastExpo(BigInteger a, BigInteger b) {
+		BigInteger result = BigInteger.ONE;
 
-		while (b > 0) {
-			if (b % 2 == 1) {
-				result *= a;
+		while (b.compareTo(BigInteger.ZERO) == 1) {
+			if (b.mod(new BigInteger("2")).compareTo(BigInteger.ONE) == 0) {
+				result = result.multiply(a);
 			}
-			b /= 2;
-			a *= a;
+			b = b.divide(new BigInteger("2"));
+			a = a.multiply(a);
 		}
 
 		return result;
 	}
+
+	public BigInteger decrypt(BigInteger code, BigInteger d, BigInteger n) {
+		BigInteger m = code.modPow(d, n);
+		return m;
+	}
+
+	public BigInteger encrypt(BigInteger message, BigInteger e, BigInteger n) {
+		// BigInteger c = fastExpo(message, e);
+		BigInteger c = message.modPow(e, n);
+		return c.mod(n);
+	}
+
 }

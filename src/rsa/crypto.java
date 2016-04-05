@@ -153,4 +153,11 @@ class crypto {
 
 		return digest;
 	}
+
+	public static int decrypt(int code, int d, int n) {
+		int m = (int) Math.pow(code, d) % n;
+		System.out.println("DECRYPT M " + m);
+		return m;
+	}
+
 }
