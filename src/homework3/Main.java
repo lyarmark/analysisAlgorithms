@@ -6,5 +6,6 @@ public class Main {
 		Integer key = 12345;
 		String value = "World";
 		hashMap.put(key, value);
+		System.out.println(hashMap.get(key));
 	}
 }

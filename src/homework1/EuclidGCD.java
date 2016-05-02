@@ -7,7 +7,7 @@ public class EuclidGCD {
 		int b = 20;
 		int gcd1 = gcd(a, b);
 		int gcd2 = gcd2(a, b);
-		System.out.println(gcd1 + " " + gcd2);
+		System.out.println("recursive gcd: " + gcd1 + "\nnon recursive gcd: " + gcd2);
 	}
 
 	// recursive implementation

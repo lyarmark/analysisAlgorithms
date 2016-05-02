@@ -7,7 +7,7 @@ public class StringMatcher {
 		String text = "find a needle in a haystack";
 		char[] haystack = text.replaceAll("\\s+", "").toCharArray();
 		char[] needle = pattern.replaceAll("\\s+", "").toCharArray();
-		System.out.println(findSubString(haystack, needle));
+		System.out.println("substring found at index: " + findSubString(haystack, needle));
 	}
 
 	// returns the start index of the substring
@@ -32,10 +32,9 @@ public class StringMatcher {
 
 	}
 	/*
-	 * private static int[] makeCharTable(char[] needle) { final int
-	 * ALPHABET_SIZE = 256; int[] table = new int[ALPHABET_SIZE]; for (int i =
-	 * 0; i < table.length; i++) { table[i] = needle.length; } for (int i = 0; i
-	 * < needle.length - 1; i++) { table[needle[i]] = needle.length - 1 - i; } }
+	 * private static int[] makeCharTable(char[] needle) { final int 0; i <
+	 * table.length; i++) { table[i] = needle.length; } for (int i = 0; i <
+	 * needle.length - 1; i++) { table[needle[i]] = needle.length - 1 - i; } }
 	 */
 
 }

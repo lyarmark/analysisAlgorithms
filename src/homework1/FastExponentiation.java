@@ -1,9 +1,10 @@
 package homework1;
+
 //http://www.programminglogic.com/fast-exponentiation-algorithms/
 public class FastExponentiation {
 	public static void main(String[] args) {
-		int result = expo(3,3);
-		System.out.println(result);
+		int result = expo(3, 3);
+		System.out.println("result of exponentiation: " + result);
 	}
 
 	static int expo(int a, int b) {

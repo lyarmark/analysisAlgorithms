@@ -13,7 +13,11 @@ public class HashMap {
 		int mapHash = map.hashCode();
 		for (int i = 0; i <= map.getCollision(); i++) {
 			Map map2 = new Map(mapHash, null);
-			mapHash = map2.hashCode();
+			if (hashMap[mapHash] != null) {
+				break;
+			} else {
+				mapHash = map2.hashCode();
+			}
 		}
 		Object value = hashMap[mapHash].getValue();
 		return value;
@@ -28,6 +32,7 @@ public class HashMap {
 			map.collision();
 		}
 		hashMap[mapHash] = map;
+		System.out.println("entry entered successfully");
 	}
 
 	public void remove(Object key) {
