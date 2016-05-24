@@ -30,7 +30,10 @@ public class Main {
 		cluster1.add(list.get(0));
 		list.remove(0);
 		addFurthestPointToOtherCluster(list, cluster1, cluster2);
-		singleLinkage(list, cluster1, cluster2);
+		// CAN ONLY DO ONE AT A TIME BECAUSE I DON'T REFILL THE LIST
+		// singleLinkage(list, cluster1, cluster2);
+		// completeLinkage(list, cluster1, cluster2);
+		averageLinkage(list, cluster1, cluster2);
 
 		System.out.println("Cluster1: " + cluster1.size());
 		for (Point p : cluster1) {
@@ -40,6 +43,62 @@ public class Main {
 		for (Point p : cluster2) {
 			System.out.println(p);
 		}
+	}
+
+	private static void averageLinkage(ArrayList<Point> list, ArrayList<Point> cluster1, ArrayList<Point> cluster2) {
+		// Average: collect total distance, divide by number of points put it in
+		// lower
+		while (!list.isEmpty()) {
+			Point a = list.get(0);
+			double average1 = 0;
+			double average2 = 0;
+			for (int i = 0; i < cluster1.size(); i++) {
+				double distance = a.distance(cluster1.get(i));
+				average1 += distance;
+			}
+			for (int i = 0; i < cluster2.size(); i++) {
+				double distance = a.distance(cluster2.get(i));
+				average2 += distance;
+			}
+			if (average1 / cluster1.size() < average2 / cluster2.size()) {
+				cluster1.add(a);
+			} else {
+				cluster2.add(a);
+			}
+			list.remove(a);
+		}
+	}
+
+	private static void completeLinkage(ArrayList<Point> list, ArrayList<Point> cluster1, ArrayList<Point> cluster2) {
+		// opposite of single- go by farthest
+		while (!list.isEmpty()) {
+			Point a = list.get(0);
+			double far1 = 0;
+			double far2 = 0;
+			for (int i = 0; i < cluster1.size(); i++) {
+				double distance = a.distance(cluster1.get(i));
+				if (i == 0) {
+					far1 = distance;
+				} else if (distance > far1) {
+					far1 = distance;
+				}
+			}
+			for (int i = 0; i < cluster2.size(); i++) {
+				double distance = a.distance(cluster2.get(i));
+				if (i == 0) {
+					far2 = distance;
+				} else if (distance > far2) {
+					far2 = distance;
+				}
+			}
+			if (far1 > far2) {
+				cluster1.add(a);
+			} else {
+				cluster2.add(a);
+			}
+			list.remove(a);
+		}
+
 	}
 
 	private static void addFurthestPointToOtherCluster(ArrayList<Point> list, ArrayList<Point> cluster1,
@@ -101,9 +160,3 @@ public class Main {
 
 	}
 }
-/*
- * 
- * opposite for complete
- * 
- * average: collect total distance, divide by number of points put it in lower
- */
